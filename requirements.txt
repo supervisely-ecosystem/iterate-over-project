@@ -1,1 +1,2 @@
 supervisely
+black # for code formatting
