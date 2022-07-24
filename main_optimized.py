@@ -25,8 +25,7 @@ for dataset in datasets:
     images = api.image.get_list(dataset.id)
     for batch in sly.batched(images):
         image_ids = [image.id for image in batch]
-        # TODO: add method download_json_batch
-        annotations = api.annotation.download_batch(dataset.id, image_ids)
+        annotations = api.annotation.download_json_batch(dataset.id, image_ids)
         for image, ann_json in zip(batch, annotations):
             ann = sly.Annotation.from_json(ann_json, project_meta)
             print(f"There are {len(ann.labels)} objects on image {image.name}")
