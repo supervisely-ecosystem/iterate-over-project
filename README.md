@@ -8,13 +8,13 @@ In this article, we will learn how to iterate through a project with annotated d
 
 In this guide we will go through the following steps:
 
-[**Step 1.**](iterate-over-a-project.md#demo-project) Get a [demo project](https://ecosystem.supervise.ly/projects/lemons-annotated) with labeled lemons and kiwis.
+[**Step 1.**](#demo-project) Get a [demo project](https://ecosystem.supervise.ly/projects/lemons-annotated) with labeled lemons and kiwis.
 
-[**Step 2.**](iterate-over-a-project.md#.env-file) Prepare `.env` file with credentials and ID of demo project.&#x20;
+[**Step 2.**](#.env-file) Prepare `.env` file with credentials and ID of demo project.&#x20;
 
-[**Step 3.**](iterate-over-a-project.md#python-script) Run [python script](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/main.py).
+[**Step 3.**](#python-script) Run [python script](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/main.py).
 
-[**Step 4.**](iterate-over-a-project.md#undefined) Show possible optimizations.
+[**Step 4.**](#undefined) Show possible optimizations.
 
 ### Demo project
 
