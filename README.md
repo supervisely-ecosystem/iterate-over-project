@@ -10,7 +10,7 @@ In this guide we will go through the following steps:
 
 [**Step 1.**](#demo-project) Get a [demo project](https://ecosystem.supervise.ly/projects/lemons-annotated) with labeled lemons and kiwis.
 
-[**Step 2.**](#-env-file) Prepare `.env` file with credentials and ID of demo project.&#x20;
+[**Step 2.**](#env-file) Prepare `.env` file with credentials and ID of demo project.&#x20;
 
 [**Step 3.**](#python-script) Run [python script](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/main.py).
 
