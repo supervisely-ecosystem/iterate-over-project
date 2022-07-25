@@ -2,7 +2,6 @@ import os
 import supervisely as sly
 from dotenv import load_dotenv
 
-# order matters
 load_dotenv(os.path.expanduser("local.env"))
 load_dotenv(os.path.expanduser("~/supervisely.env"))
 api = sly.Api.from_env()
