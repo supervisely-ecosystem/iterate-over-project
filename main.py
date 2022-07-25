@@ -2,8 +2,9 @@ import os
 import supervisely as sly
 from dotenv import load_dotenv
 
-
-load_dotenv(os.path.expanduser("~/supervisely.env"), verbose=True)
+# order matters
+load_dotenv(os.path.expanduser("local.env"))
+load_dotenv(os.path.expanduser("~/supervisely.env"))
 api = sly.Api.from_env()
 
 project_id = int(os.environ["modal.state.slyProjectId"])
