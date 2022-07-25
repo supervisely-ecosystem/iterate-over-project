@@ -13,7 +13,7 @@ if project is None:
     raise KeyError(f"Project with ID {project_id} not found in your account")
 print(f"Project info: {project.name} (id={project.id})")
 
-# get project meta - list of annotation classes and tags
+# get project meta - collection of annotation classes and tags
 meta_json = api.project.get_meta(project.id)
 project_meta = sly.ProjectMeta.from_json(meta_json)
 print(project_meta)
