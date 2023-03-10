@@ -1,20 +1,21 @@
 # Quickstart  - iterate over a Supervisely project using Python SDK
 ## [Read in Supervisely Developer portal](https://developer.supervise.ly/getting-started/python-sdk-tutorials/iterate-over-a-project)
 
-
 In this article, we will learn how to iterate through a project with annotated data in python. It is one of the most frequent operations in Superviely Apps and python automation scripts.
 
-ℹ️ Everything you need to reproduce [this tutorial is on GitHub](https://github.com/supervisely-ecosystem/iterate-over-project): source code, Visual Studio code configuration, and a shell script for creating venv.
+{% hint style="info" %}
+Everything you need to reproduce [this tutorial is on GitHub](https://github.com/supervisely-ecosystem/iterate-over-project): source code, Visual Studio code configuration, and a shell script for creating venv.
+{% endhint %}
 
 In this guide we will go through the following steps:
 
-[**Step 1.**](#demo-project) Get a [demo project](https://ecosystem.supervise.ly/projects/lemons-annotated) with labeled lemons and kiwis.
+****[**Step 1.**](iterate-over-a-project.md#demo-project) Get a [demo project](https://ecosystem.supervise.ly/projects/lemons-annotated) with labeled lemons and kiwis.
 
-[**Step 2.**](#.env-file) Prepare `.env` files with credentials and ID of a demo project.&#x20;
+****[**Step 2.**](iterate-over-a-project.md#.env-file) Prepare `.env` files with credentials and ID of a demo project.&#x20;
 
-[**Step 3.**](#python-script) Run [python script](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/main.py).
+****[**Step 3.**](iterate-over-a-project.md#python-script) Run [python script](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/main.py).
 
-[**Step 4**](#optimizations). Show possible optimizations.
+****[**Step 4**](iterate-over-a-project.md#optimizations)**.** Show possible optimizations.
 
 ### 1. Demo project
 
@@ -24,7 +25,7 @@ If you don't have any projects yet, go to the ecosystem and add the demo project
 
 ### 2. `.env` files
 
-Create a file at `~/supervisely.env` with the credentials for your Supervisely account. Learn more about environment variables [here](environment-variables.md). The content should look like this:
+Create a file at `~/supervisely.env` with the credentials for your Supervisely account. Learn more about environment variables [here](../environment-variables.md). The content should look like this:
 
 ```python
 # your API credentials, learn more here: https://developer.supervise.ly/getting-started/basics-of-authentication
@@ -36,10 +37,12 @@ Create the second file `local.env` and place it in the same directory with the `
 
 ```python
 # change the Project ID to your value
-modal.state.slyProjectId=12208 # ⬅️ change it
+PROJECT_ID=12208 # ⬅️ change it
 ```
 
-ℹ️ The reason why the variable for Project ID has such a strange name **`modal.state.slyProjectId`** will be explained later in the next tutorials. Let's just keep it this way for now.
+{% hint style="info" %}
+The reason why the variable for Project ID has such a strange name **`modal.state.slyProjectId`** will be explained later in the next tutorials. Let's just keep it this way for now.
+{% endhint %}
 
 ### 3. Python script
 
@@ -61,13 +64,13 @@ import os
 import supervisely as sly
 from dotenv import load_dotenv
 
-
-load_dotenv("local.env")
-load_dotenv(os.path.expanduser("~/supervisely.env"))
+if sly.is_development():
+    load_dotenv("local.env")
+    load_dotenv(os.path.expanduser("~/supervisely.env"))
 
 api = sly.Api.from_env()
 
-project_id = int(os.environ["modal.state.slyProjectId"])
+project_id = sly.env.project_id()
 project = api.project.get_info_by_id(project_id)
 if project is None:
     raise KeyError(f"Project with ID {project_id} not found in your account")
@@ -129,9 +132,9 @@ for image in images:
     ann_json = api.annotation.download_json(image.id)
 ```
 
-If you have **1M** images in your project, your code will send 🟡 **1M** requests to download annotations. It is inefficient due to Round Trip Time (RTT) and a large number of similar tiny requests to a Supervisely database.
+If you have **1M** images in your project, your code will send 🟡 **1M** requests to download annotations. It is inefficient due to Round Trip Time (RTT) and a large number of similar tiny requests to a Supervisely database.&#x20;
 
-It can be optimized by using the batch API method:
+It can be optimized by using the batch API method:&#x20;
 
 ```python
 api.annotation.download_json_batch(dataset.id, image_ids) 
