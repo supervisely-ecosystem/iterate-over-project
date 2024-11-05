@@ -1,5 +1,5 @@
 # Quickstart  - iterate over a Supervisely project using Python SDK
-## [Read in Supervisely Developer portal](https://developer.supervise.ly/getting-started/python-sdk-tutorials/iterate-over-a-project)
+## [Read in Supervisely Developer portal](https://developer.supervisely.com/getting-started/python-sdk-tutorials/iterate-over-a-project)
 
 In this article, we will learn how to iterate through a project with annotated data in python. It is one of the most frequent operations in Superviely Apps and python automation scripts.
 
@@ -9,7 +9,7 @@ Everything you need to reproduce [this tutorial is on GitHub](https://github.com
 
 In this guide we will go through the following steps:
 
-****[**Step 1.**](iterate-over-a-project.md#demo-project) Get a [demo project](https://ecosystem.supervise.ly/projects/lemons-annotated) with labeled lemons and kiwis.
+****[**Step 1.**](iterate-over-a-project.md#demo-project) Get a [demo project](https://ecosystem.supervisely.com/projects/lemons-annotated) with labeled lemons and kiwis.
 
 ****[**Step 2.**](iterate-over-a-project.md#.env-file) Prepare `.env` files with credentials and ID of a demo project.&#x20;
 
@@ -28,8 +28,8 @@ If you don't have any projects yet, go to the ecosystem and add the demo project
 Create a file at `~/supervisely.env` with the credentials for your Supervisely account. Learn more about environment variables [here](../environment-variables.md). The content should look like this:
 
 ```python
-# your API credentials, learn more here: https://developer.supervise.ly/getting-started/basics-of-authentication
-SERVER_ADDRESS="https://app.supervise.ly" # ⬅️ change it if use Enterprise Edition
+# your API credentials, learn more here: https://developer.supervisely.com/getting-started/basics-of-authentication
+SERVER_ADDRESS="https://app.supervisely.com" # ⬅️ change it if use Enterprise Edition
 API_TOKEN="4r47N.....blablabla......xaTatb" # ⬅️ change it
 ```
 
