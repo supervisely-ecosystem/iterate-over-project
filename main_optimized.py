@@ -18,7 +18,7 @@ meta_json = api.project.get_meta(project.id)
 project_meta = sly.ProjectMeta.from_json(meta_json)
 print(project_meta)
 
-datasets = api.dataset.get_list(project.id)
+datasets = api.dataset.get_list(project.id, recursive=True) 
 print(f"There are {len(datasets)} datasets in project")
 
 for dataset in datasets:
