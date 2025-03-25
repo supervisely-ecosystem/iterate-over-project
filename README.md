@@ -9,23 +9,23 @@ Everything you need to reproduce [this tutorial is on GitHub](https://github.com
 
 In this guide we will go through the following steps:
 
-****[**Step 1.**](iterate-over-a-project.md#demo-project) Get a [demo project](https://ecosystem.supervisely.com/projects/lemons-annotated) with labeled lemons and kiwis.
+\*\*\*\* [**Step 1.**](iterate-over-a-project.md#1-demo-project) Get a demo project with labeled [lemons and kiwis]((https://ecosystem.supervisely.com/projects/lemons-annotated)) or [fruits project](https://ecosystem.supervisely.com/apps/fruits-nested-annotated) with nested datasets.
 
-****[**Step 2.**](iterate-over-a-project.md#.env-file) Prepare `.env` files with credentials and ID of a demo project.&#x20;
+\*\*\*\* [**Step 2.**](iterate-over-a-project.md#2-env-files) Prepare `.env` files with credentials and ID of a demo project.
 
-****[**Step 3.**](iterate-over-a-project.md#python-script) Run [python script](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/main.py).
+\*\*\*\* [**Step 3.**](iterate-over-a-project.md#3-python-script) Run [python script](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/main.py).
 
-****[**Step 4**](iterate-over-a-project.md#optimizations)**.** Show possible optimizations.
+\*\*\*\* [**Step 4.**](iterate-over-a-project.md#4-optimizations) Show possible optimizations.
 
 ### 1. Demo project
 
-If you don't have any projects yet, go to the ecosystem and add the demo project 🍋 **`Lemons annotated`** to your current workspace.
+If you don't have any projects yet, go to the ecosystem and add the demo project 🍋 **`Lemons (Annotated)`**  or 🍍 **Fruits (Annotated)** to your current workspace.
 
-![Add demo project "Lemons annotated" to your workjspace](https://user-images.githubusercontent.com/12828725/180640631-8636ac88-a8f7-4f72-90bb-84438d12f247.png)
+![Add demo project "Lemons (Annotated)" to your workjspace](https://user-images.githubusercontent.com/12828725/180640631-8636ac88-a8f7-4f72-90bb-84438d12f247.png)
 
 ### 2. `.env` files
 
-Create a file at `~/supervisely.env` with the credentials for your Supervisely account. Learn more about environment variables [here](../environment-variables.md). The content should look like this:
+Create a file at `~/supervisely.env` with the credentials for your Supervisely account. Learn more about environment variables [here](../../environment-variables.md). The content should look like this:
 
 ```python
 # your API credentials, learn more here: https://developer.supervisely.com/getting-started/basics-of-authentication
@@ -40,21 +40,17 @@ Create the second file `local.env` and place it in the same directory with the `
 PROJECT_ID=12208 # ⬅️ change it
 ```
 
-{% hint style="info" %}
-The reason why the variable for Project ID has such a strange name **`modal.state.slyProjectId`** will be explained later in the next tutorials. Let's just keep it this way for now.
-{% endhint %}
-
 ### 3. Python script
 
 {% hint style="info" %}
 This script illustrates only the basics. If your project is huge and has **hundreds of thousands of images** then it is not so efficient to download annotations one by one. It is better to use batch (bulk) methods to reduce the number of API requests and significantly speed up your code. Learn more in [the optimizations section](iterate-over-a-project.md#optimizations) below.
 {% endhint %}
 
-To start debugging you need to&#x20;
+To start debugging you need to
 
 1. Clone the [repo](https://github.com/supervisely-ecosystem/iterate-over-project)
-2. Create [venv](https://docs.python.org/3/library/venv.html) by running the script [`create_venv.sh`](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/create\_venv.sh)&#x20;
-3. Change value in [local.env](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/local.env)&#x20;
+2. Create [venv](https://docs.python.org/3/library/venv.html) by running the script [`create_venv.sh`](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/create\_venv.sh)
+3. Change value in [local.env](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/local.env)
 4. Check that you have `~/supervisely.env` file with correct values
 
 #### Source code:
@@ -81,7 +77,8 @@ meta_json = api.project.get_meta(project.id)
 project_meta = sly.ProjectMeta.from_json(meta_json)
 print(project_meta)
 
-datasets = api.dataset.get_list(project.id)
+# Set recursive to True if you want to include nested datasets
+datasets = api.dataset.get_list(project.id, recursive=True) 
 print(f"There are {len(datasets)} datasets in project")
 
 for dataset in datasets:
@@ -95,9 +92,10 @@ for dataset in datasets:
 
 #### Output
 
-The script above produces the following output:
+The script above produces the following output for Lemons (Annotated) project:
 
-```
+```text
+
 Project info: Lemons (Annotated) (id=12208)
 ProjectMeta:
 Object Classes
@@ -123,6 +121,71 @@ There are 5 objects on image IMG_4451.jpeg
 There are 7 objects on image IMG_2084.jpeg
 ```
 
+The script above produces the following output for Fruits Nested (Annotated) project:
+
+```text
+
+Project info: Fruits Nested (Annotated) (id=1317)
+ProjectMeta:
+Object Classes
++-----------+-----------+----------------+--------+
+|    Name   |   Shape   |     Color      | Hotkey |
++-----------+-----------+----------------+--------+
+|   Lemon   | Rectangle | [144, 19, 254] |        |
+|   Apple   | Rectangle |  [208, 2, 27]  |        |
+| Pineapple | Rectangle | [248, 231, 28] |        |
+|    Pear   | Rectangle | [126, 211, 33] |        |
+|   Orange  | Rectangle | [80, 227, 194] |        |
+|   Banana  | Rectangle | [139, 87, 42]  |        |
+|   Mango   | Rectangle | [74, 144, 226] |        |
++-----------+-----------+----------------+--------+
+Tags
++-----------+------------+-----------------+--------+---------------+--------------------+-------------+
+|    Name   | Value type | Possible values | Hotkey | Applicable to | Applicable classes | Target type |
++-----------+------------+-----------------+--------+---------------+--------------------+-------------+
+|   Apple   |    none    |       None      |        |      all      |         []         |     all     |
+|   Banana  |    none    |       None      |        |      all      |         []         |     all     |
+|   Lemon   |    none    |       None      |        |      all      |         []         |     all     |
+|   Mango   |    none    |       None      |        |      all      |         []         |     all     |
+|   Orange  |    none    |       None      |        |      all      |         []         |     all     |
+|    Pear   |    none    |       None      |        |      all      |         []         |     all     |
+| Pineapple |    none    |       None      |        |      all      |         []         |     all     |
++-----------+------------+-----------------+--------+---------------+--------------------+-------------+
+
+There are 9 datasets in project
+Dataset Temperate has 0 images
+Dataset Apple has 3 images
+There are 1 objects on image apple_2.jpg
+There are 1 objects on image apple_1.jpg
+There are 1 objects on image apple_3.jpg
+Dataset Pear has 3 images
+There are 1 objects on image pear_3.jpg
+There are 1 objects on image pear_1.jpg
+There are 1 objects on image pear_2.jpg
+Dataset Tropical has 0 images
+Dataset Banana has 3 images
+There are 1 objects on image banana_1.jpg
+There are 1 objects on image banana_2.jpg
+There are 3 objects on image banana_3.jpg
+Dataset Mango has 4 images
+There are 1 objects on image mango_3.jpg
+There are 1 objects on image mango_1.jpg
+There are 1 objects on image mango_4.jpg
+There are 1 objects on image mango_2.jpg
+Dataset Pineapple has 3 images
+There are 1 objects on image pineapple_3.jpg
+There are 1 objects on image pineapple_2.jpg
+There are 1 objects on image pineapple_1.jpg
+Dataset Lemon has 3 images
+There are 1 objects on image lemon_1.jpg
+There are 1 objects on image lemon_3.jpg
+There are 1 objects on image lemon_2.jpg
+Dataset Orange has 3 images
+There are 1 objects on image orange_2.jpg
+There are 1 objects on image orange_1.jpg
+There are 1 objects on image orange_3.jpg
+```
+
 ### 4. Optimizations
 
 The bottleneck of this script is in these lines (27-28):
@@ -132,9 +195,9 @@ for image in images:
     ann_json = api.annotation.download_json(image.id)
 ```
 
-If you have **1M** images in your project, your code will send 🟡 **1M** requests to download annotations. It is inefficient due to Round Trip Time (RTT) and a large number of similar tiny requests to a Supervisely database.&#x20;
+If you have **1M** images in your project, your code will send 🟡 **1M** requests to download annotations. It is inefficient due to Round Trip Time (RTT) and a large number of similar tiny requests to a Supervisely database.
 
-It can be optimized by using the batch API method:&#x20;
+It can be optimized by using the batch API method:
 
 ```python
 api.annotation.download_json_batch(dataset.id, image_ids) 
@@ -151,4 +214,4 @@ for batch in sly.batched(images):
         print(f"There are {len(ann.labels)} objects on image {image.name}")
 ```
 
-The optimized version of the original script is in [`main_optimized.py`](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/main\_optimized.py).
+The optimized version of the original script is in [`main_optimized.py`](https://github.com/supervisely-ecosystem/iterate-over-project/blob/master/main_optimized.py).
