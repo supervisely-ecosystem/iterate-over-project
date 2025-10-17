@@ -9,7 +9,7 @@ Everything you need to reproduce [this tutorial is on GitHub](https://github.com
 
 In this guide we will go through the following steps:
 
-\*\*\*\* [**Step 1.**](iterate-over-a-project.md#1-demo-project) Get a demo project with labeled [lemons and kiwis]((https://ecosystem.supervisely.com/projects/lemons-annotated)) or [fruits project](../../../../supervisely-ecosystem/fruits-nested-annotated) with nested datasets.
+\*\*\*\* [**Step 1.**](iterate-over-a-project.md#1-demo-project) Get a demo project with labeled [lemons and kiwis]((https://ecosystem.supervisely.com/projects/lemons-annotated)) or [fruits project](https://ecosystem.supervisely.com/apps/fruits-nested-annotated) with nested datasets.
 
 \*\*\*\* [**Step 2.**](iterate-over-a-project.md#2-env-files) Prepare `.env` files with credentials and ID of a demo project.
 
